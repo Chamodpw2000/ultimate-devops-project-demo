@@ -1,0 +1,56 @@
+Kubernetes Deployment and Init Containers Summary
+
+Deployment Name: The name in the metadata of a Deployment uniquely identifies the Deployment within the namespace, helping with management,
+
+Labels:
+
+Deployment metadata.labels → applied to the Deployment object itself, used for organization, queries, and identifying the Deployment.
+
+Pod template labels (spec.template.metadata.labels) → applied to Pods created by the Deployment; used for selectors, traffic routing, monitoring, and identifying which Pods belong to which Deployment.
+
+Both are needed: one for the Deployment, one for the Pods.
+
+Selector (spec.selector.matchLabels):
+
+Determines which Pods the Deployment manages.
+
+Must match the Pod template labels; otherwise, Deployment cannot manage the Pods correctly.
+
+Ensures scaling, rolling updates, and service routing work properly.
+
+Pod Template:
+
+Defines the Pods’ configuration, including containers, environment variables, resource limits, and labels.
+
+Environment variables in this manifest are mostly for OpenTelemetry integration (service name, collector endpoint, metrics preferences, Kafka address, resource attributes).
+
+Init Containers:
+
+Special containers that run before the main container.
+
+Used here to wait until Kafka is available (busybox with nc command looping until Kafka port 9092 is reachable).
+
+Prevents race conditions where the main container starts before Kafka is ready.
+
+Container Image:
+
+The main container uses a prebuilt Docker image (ghcr.io/open-telemetry/demo:1.12.0-accountingservice).
+
+Images are pulled from a container registry like GitHub Container Registry or Docker Hub.
+
+Ensures consistent environment with all code, runtime, and dependencies packaged.
+
+Resource Limits:
+
+Limits memory usage of the main container (120Mi), which prevents overconsumption of cluster resources.
+
+Volumes:
+
+Defined but empty in this manifest; can be used for persistent or shared storage if needed.
+
+Revision History Limit:
+
+revisionHistoryLimit: 10 keeps the last 10 revisions for rollback purposes.
+
+✅ Overall:
+This Deployment defines a single-replica accounting service for the OpenTelemetry demo. It ensures observability via OpenTelemetry, waits for dependencies (Kafka) before starting, limits resources, and is properly labeled for service discovery, scaling, and monitoring.
