@@ -22,19 +22,4 @@ Transform: AWS::Serverless-2016-10-31
 
 
 
-# This section defines how the Kubernetes Service exposes network traffic:
 
-# port: 8080
-# The port on which the Service is exposed inside the cluster. 
-# Other pods and services will use this port to communicate with the Service.
-
-# name: tcp-service
-# A name for the port, useful for reference and clarity, especially if there are multiple ports.
-
-# targetPort: 8080
-# The port on the selected pods where traffic will be forwarded. This means requests to the Service on port 8080 
-# are sent to port 8080 on the matching pods.
-
-# In summary:
-# Traffic sent to the Service on port 8080 is forwarded to port 8080 on the backend pods. 
-# The name helps identify the port, especially in multi-port services.
