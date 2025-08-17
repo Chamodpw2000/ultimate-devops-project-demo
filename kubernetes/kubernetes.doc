@@ -65,3 +65,39 @@ env: Environment variables for configuration.
 resources: CPU and memory limits/requests.
 livenessProbe/readinessProbe: Health checks to ensure the pod is running and ready.
 
+Service File
+
+A Service file in Kubernetes is a YAML manifest that defines a network service to expose a set of pods. 
+It provides a stable endpoint for accessing pods, load balancing traffic, and service discovery.
+
+Main components:
+
+apiVersion: Specifies the API version (usually v1).
+kind: Indicates the resource type (Service).
+metadata: Contains the name and labels for identification.
+
+spec:
+type: How the service is exposed (ClusterIP, NodePort, LoadBalancer).
+ports: Defines which ports the service exposes and maps them to pod ports.
+selector: Uses labels to select the pods that receive traffic.
+
+ClusterIP:
+The default type. Makes the service accessible only within the Kubernetes cluster. 
+Used for internal communication between services and pods.
+
+NodePort:
+Exposes the service on a static port on each node’s IP address. 
+Allows external access to the service using <NodeIP>:<NodePort>. Useful for development or simple external access.
+
+LoadBalancer:
+Provisions an external load balancer (if supported by the cloud provider). 
+Exposes the service to the internet, distributing traffic across nodes and pods. Used for production-grade, public-facing services.
+
+
+Purpose:
+Ensures reliable communication between components.
+Provides load balancing and a single access point for pods.
+Enables service discovery within the cluster.
+
+
+
